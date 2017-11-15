@@ -13,6 +13,7 @@ const passport = require('passport');
 // console.log(jimmy); // Stewart - the variable name is jimmy, not james
 // console.log(bobby); // De Niro - the variable name is bobby, not robert
 const {router: usersRouter} = require('./users');
+const {router: companiesRouter} = require('./companies');
 const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 
 mongoose.Promise = global.Promise;
@@ -23,6 +24,9 @@ const app = express();
 
 // Logging
 app.use(morgan('common'));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 // CORS
 app.use(function(req, res, next) {
@@ -41,6 +45,7 @@ passport.use(jwtStrategy);
 
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
+app.use('/api/companies/', companiesRouter);
 
 // A protected endpoint which needs a valid JWT to access it
 app.get(

@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     firstName: {type: String, default: ''},
-    lastName: {type: String, default: ''}
+    lastName: {type: String, default: ''},
+    reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 
 UserSchema.methods.apiRepr = function() {
