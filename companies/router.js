@@ -13,13 +13,12 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-module.exports = {router};
+
 
 
 router.get('/:id', (req, res) => {
   return Company
     .findById(req.params.id)
-    // .exec() //!!!!explain!!!!
     .then(company => res.json(company.apiRepr())) //no render bc in component?
     .catch(err => {
       console.error(err);
@@ -36,7 +35,7 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-  //if key !exist in body is it automatically null???? or throw error?
+  
   Company.create({
     name: req.body.name.trim(),
     streetAddress: req.body.streetAddress.trim(),
@@ -49,7 +48,7 @@ router.post('/', (req, res) => {
   })
   .then(company => {
     console.log("Successfully created a company.");
-    res.status(201).json(company); //????
+    res.status(201).json(company); 
   })
   .catch(err => {
     console.log("Error: ", err);
@@ -74,3 +73,4 @@ router.post('/', (req, res) => {
 //   "imageUrl": "boy1.png",
 //   "types": ["wine", "mead"]
 // }
+module.exports = {router};

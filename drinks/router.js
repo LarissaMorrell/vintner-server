@@ -13,13 +13,12 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-module.exports = {router};
+
 
 
 router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
-    // .exec() //!!!!explain!!!!
     .then(drink => res.json(drink.apiRepr())) //no render bc in component?
     .catch(err => {
       console.error(err);
@@ -36,8 +35,7 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-  console.log("in post req");
-  //if key !exist in body is it automatically null???? or throw error?
+
   Drink.create({
     name: req.body.name.trim(),
     type: req.body.type.trim(),
@@ -45,10 +43,12 @@ router.post('/', (req, res) => {
   })	
   .then(drink => {
     console.log("Successfully created a drink.");
-    res.status(201).json(drink); //????
+    res.status(201).json(drink);
   })
   .catch(err => {
   	console.log("Error: ", err);
   	res.status(500).json({ error: 'something went terribly wrong' });
   });
 })
+
+module.exports = {router};

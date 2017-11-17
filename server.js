@@ -49,7 +49,7 @@ app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 app.use('/api/companies/', companiesRouter);
 app.use('/api/drinks/', drinksRouter);
-// app.use('/api/reviews/', reviewsRouter);
+app.use('/api/reviews/', reviewsRouter);
 
 // A protected endpoint which needs a valid JWT to access it
 app.get(

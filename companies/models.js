@@ -8,14 +8,15 @@ const CompanySchema = mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
 
-    hours: { type: Array }, // [ {open: 10, close: 18},{} ]
-    imageUrl: { type: String },
-    types: { type: Array },
+    hours: { type: Array, default: [{}, {}, {}, {}, {}, {}, {},] }, // [ {open: 10, close: 18},{} ]
+    imageUrl: { type: String, default:"" },
+    types: { type: Array, default:[] },
     drinks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}]
 });
 
 CompanySchema.methods.apiRepr = function() {
   return {
+    id: this._id,
     name: this.name,
     streetAddress: this.streetAddress,
     city: this.city,
