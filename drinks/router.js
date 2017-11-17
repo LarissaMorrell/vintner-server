@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const requiredFields = ['name', 'streetAddress', 'city', 'state'];
+  const requiredFields = ['name', 'type'];
   for(let field of requiredFields){
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -39,11 +39,16 @@ router.post('/', (req, res) => {
   console.log("in post req");
   //if key !exist in body is it automatically null???? or throw error?
   Drink.create({
-    // name: req.body.name.trim(),
-    })
-  .then(store => {
+    name: req.body.name.trim(),
+    type: req.body.type.trim(),
+    reviews: req.body.reviews
+  })	
+  .then(drink => {
     console.log("Successfully created a drink.");
-    res.status(201).json(store); //????
+    res.status(201).json(drink); //????
   })
-  .catch(err => console.log("Error: ", err));
+  .catch(err => {
+  	console.log("Error: ", err);
+  	res.status(500).json({ error: 'something went terribly wrong' });
+  });
 })

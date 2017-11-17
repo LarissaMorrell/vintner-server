@@ -36,7 +36,6 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-  console.log("in post req");
   //if key !exist in body is it automatically null???? or throw error?
   Company.create({
     name: req.body.name.trim(),
@@ -48,9 +47,9 @@ router.post('/', (req, res) => {
     types: req.body.types,
     drinks: req.body.drinks
   })
-  .then(store => {
+  .then(company => {
     console.log("Successfully created a company.");
-    res.status(201).json(store); //????
+    res.status(201).json(company); //????
   })
   .catch(err => {
     console.log("Error: ", err);
