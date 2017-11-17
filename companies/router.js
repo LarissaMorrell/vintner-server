@@ -19,7 +19,7 @@ module.exports = {router};
 router.get('/:id', (req, res) => {
   return Company
     .findById(req.params.id)
-    .exec() //!!!!explain!!!!
+    // .exec() //!!!!explain!!!!
     .then(company => res.json(company.apiRepr())) //no render bc in component?
     .catch(err => {
       console.error(err);
@@ -52,7 +52,10 @@ router.post('/', (req, res) => {
     console.log("Successfully created a company.");
     res.status(201).json(store); //????
   })
-  .catch(err => console.log("Error: ", err));
+  .catch(err => {
+    console.log("Error: ", err);
+    res.status(500).json({ error: 'something went terribly wrong' });
+  });
 })
 
 

@@ -13,13 +13,15 @@ const passport = require('passport');
 // console.log(jimmy); // Stewart - the variable name is jimmy, not james
 // console.log(bobby); // De Niro - the variable name is bobby, not robert
 const {router: usersRouter} = require('./users');
-const {router: companiesRouter} = require('./companies');
 const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
+const {router: companiesRouter} = require('./companies');
+const {router: drinksRouter} = require('./drinks');
+const {router: reviewsRouter} = require('./reviews');
+
 
 mongoose.Promise = global.Promise;
 
 const {PORT, DATABASE_URL} = require('./config');
-
 const app = express();
 
 // Logging
@@ -46,6 +48,8 @@ passport.use(jwtStrategy);
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 app.use('/api/companies/', companiesRouter);
+app.use('/api/drinks/', drinksRouter);
+// app.use('/api/reviews/', reviewsRouter);
 
 // A protected endpoint which needs a valid JWT to access it
 app.get(
