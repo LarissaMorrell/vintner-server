@@ -16,13 +16,29 @@ const CompanySchema = mongoose.Schema({
 
 CompanySchema.methods.apiRepr = function() {
   return {
-    
+    name: this.name,
+    streetAddress: this.streetAddress,
+    city: this.city,
+    state: this.state,
+    hours: this.hours, // [ {open: 10, close: 18},{} ]
+    imageUrl: this.imageUrl,
+    types: this.types
   };
 }
 
 // VIRTUALS
 // rating avg drinks rating >> drinks=avg of reviews rating
 // totalReviewCount
+
+// CompanySchema.virtual('rating').get(function(){
+//      return `${this.firstName} ${this.lastName}`;}
+
+// userSchema.methods.apiRepr = function(){
+//      return {
+//           id: this._id,
+//           name: this.fullName,
+//           email: this.email }
+
 
 
 const Company = mongoose.model('Company', CompanySchema);

@@ -36,21 +36,39 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-
+  console.log("in post req");
   //if key !exist in body is it automatically null???? or throw error?
   Company.create({
-    name: req.body.name,
-    streetAddress: req.body.streetAddress,
-    city: req.body.city,
-    state: req.body.state,
+    name: req.body.name.trim(),
+    streetAddress: req.body.streetAddress.trim(),
+    city: req.body.city.trim(),
+    state: req.body.state.trim(),
     hours: req.body.hours, // [ {open: 10, close: 18},{} ]
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.body.imageUrl.trim(),
     types: req.body.types,
     drinks: req.body.drinks
   })
   .then(store => {
     console.log("Successfully created a company.");
-    res.status(201).json(company.apiRepr()); //????
+    res.status(201).json(store); //????
   })
   .catch(err => console.log("Error: ", err));
 })
+
+
+
+// {
+//   "name": "Awesome winery",
+//   "streetAddress": "1 shore drive",
+//   "city": "boston",
+//   "state": "MA",
+//   "hours": [ {"open": 10, "close": 18},
+//     {"open": 10, "close": 18},
+//     {"open": 10, "close": 18},
+//     {"open": 10, "close": 18},
+//     {"open": 10, "close": 18},
+//     {"open": 10, "close": 18},
+//     {"open": 10, "close": 18} ],
+//   "imageUrl": "boy1.png",
+//   "types": ["wine", "mead"]
+// }
