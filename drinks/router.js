@@ -57,6 +57,7 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
 
+//???? this format is in some of my old code... promises are better right?????
   // Drink.remove({_id: req.params.id}, function(err) {
   //   if(err) {
   //     console.log(err);
@@ -64,6 +65,7 @@ router.delete('/:id', (req, res) => {
   //     console.log("Drink has been deleted successfully.")
   //   }
   // })
+
   Drink.remove({_id: req.params.id})
     .then(drink => {
       console.log("Successfully deleted drink.");

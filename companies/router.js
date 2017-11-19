@@ -57,6 +57,19 @@ router.post('/', (req, res) => {
 })
 
 
+router.delete('/:id', (req, res) => {
+
+  Company.remove({_id: req.params.id})
+    .then(company => {
+      console.log("Successfully deleted company.");
+      res.status(204);
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(404).json({ error: 'something went terribly wrong' });
+    })
+})
+
 
 // {
 //   "name": "Awesome winery",
