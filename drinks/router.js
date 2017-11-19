@@ -26,6 +26,9 @@ router.get('/:id', (req, res) => {
     })
 });
 
+
+
+
 router.post('/', (req, res) => {
   const requiredFields = ['name', 'type'];
   for(let field of requiredFields){
@@ -49,6 +52,27 @@ router.post('/', (req, res) => {
   	console.log("Error: ", err);
   	res.status(500).json({ error: 'something went terribly wrong' });
   });
+})
+
+
+router.delete('/:id', (req, res) => {
+
+  // Drink.remove({_id: req.params.id}, function(err) {
+  //   if(err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log("Drink has been deleted successfully.")
+  //   }
+  // })
+  Drink.remove({_id: req.params.id})
+    .then(drink => {
+      console.log("Successfully deleted drink.");
+      res.status(204);
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(404).json({ error: 'something went terribly wrong' });
+    })
 })
 
 module.exports = {router};
