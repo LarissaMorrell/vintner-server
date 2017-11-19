@@ -14,9 +14,10 @@ const DrinkSchema = mongoose.Schema({
 
 DrinkSchema.methods.apiRepr = function() {
     return {
-        // rating:this.rating
+        id: this._id,
         name: this.name,
         type: this.type
+        // rating:this.rating
     };
 };
 

@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
-    .then(drink => res.json(drink.apiRepr())) //no render bc in component?
+    .then(drink => res.json(drink.apiRepr()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' })
@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
     name: req.body.name.trim(),
     type: req.body.type.trim(),
     reviews: req.body.reviews
-  })	
+  })
   .then(drink => {
     console.log("Successfully created a drink.");
     res.status(201).json(drink);

@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-  
+
   Company.create({
     name: req.body.name.trim(),
     streetAddress: req.body.streetAddress.trim(),
@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
   })
   .then(company => {
     console.log("Successfully created a company.");
-    res.status(201).json(company); 
+    res.status(201).json(company);
   })
   .catch(err => {
     console.log("Error: ", err);
