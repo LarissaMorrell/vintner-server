@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
   })
   .catch(err => {
   	console.log("Error: ", err);
-  	res.status(500).json({ error: 'something went terribly wrong' });
+  	res.status(500).json({ error: 'Failed to create drink' });
   });
 })
 
@@ -73,7 +73,7 @@ router.delete('/:id', (req, res) => {
     })
     .catch(err => {
       console.log("Error: ", err);
-      res.status(404).json({ error: 'something went terribly wrong' });
+      res.status(404).json({ error: 'Failed to delete drink' });
     })
 })
 
