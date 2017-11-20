@@ -39,12 +39,12 @@ router.post('/', (req, res) => {
   }
 
   Company.create({
-    name: req.body.name.trim(),
-    streetAddress: req.body.streetAddress.trim(),
-    city: req.body.city.trim(),
-    state: req.body.state.trim(),
+    name: req.body.name,
+    streetAddress: req.body.streetAddress,
+    city: req.body.city,
+    state: req.body.state,
     hours: req.body.hours, // [ {open: 10, close: 18},{} ]
-    imageUrl: req.body.imageUrl.trim(),
+    imageUrl: req.body.imageUrl,
     types: req.body.types,
     drinks: req.body.drinks
   })

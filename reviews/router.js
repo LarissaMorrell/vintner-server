@@ -63,8 +63,8 @@ router.post('/', jsonParser, (req, res) => {
   //TODO Fix trim()... if the keys aren't present trim throws error
   Review.create({
     rating: req.body.rating,
-    title: req.body.title.trim(),
-    comment: req.body.comment.trim(),
+    title: req.body.title,
+    comment: req.body.comment,
     price: req.body.price,
     purchased: req.body.purchased,
     flavors: req.body.flavors

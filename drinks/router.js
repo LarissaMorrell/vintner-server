@@ -40,8 +40,8 @@ router.post('/', (req, res) => {
   }
 
   Drink.create({
-    name: req.body.name.trim(),
-    type: req.body.type.trim(),
+    name: req.body.name,
+    type: req.body.type,
     reviews: req.body.reviews
   })
   .then(drink => {
