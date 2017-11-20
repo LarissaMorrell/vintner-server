@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 })
 
 
-//Get all of the reviews for a drink
+//Get all of the reviews of a drink
 router.get('/', (req, res) => {
 
 })
@@ -48,8 +48,7 @@ router.post('/', jsonParser, (req, res) => {
   //   return res.status(422).json({
   //     code: 422,
   //     reason: 'ValidationError',
-  //     message: 'Missing Field',
-  //     location: missingField
+  //     message: 'Missing Field'
   //   })
   // }
 
@@ -84,8 +83,39 @@ router.post('/', jsonParser, (req, res) => {
 
 
 
-router.delete('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
+  if (req.params.id !== req.body.id) {
+    const message = (
+      `Request path id (${req.params.id}) and request body id `
+      `(${req.body.id}) must match`
+    );
+    console.error(message);
+    return res.status(400).send(message);
+  }
+
+  //TODO add trim() later?
+  Review.update({
+    id: req.params.id,
+    rating: req.body.rating,
+    title: req.body.title,
+    comment: req.body.comment,
+    price: req.body.price,
+    purchased: req.body.purchased,
+    flavors: req.body.flavors
+  })
+    .then(review => {
+      console.log("Successfully updated review.");
+      res.status(204);
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(404).json({ error: 'something went terribly wrong' });
+    })
+})
+
+
+router.delete('/:id', (req, res) => {
   Review.remove({_id: req.params.id})
     .then(review => {
       console.log("Successfully deleted review.");
@@ -95,7 +125,6 @@ router.delete('/:id', (req, res) => {
       console.log("Error: ", err);
       res.status(404).json({ error: 'something went terribly wrong' });
     })
-
 })
 
 
