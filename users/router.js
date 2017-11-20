@@ -8,6 +8,16 @@ const router = express.Router();
 
 const jsonParser = bodyParser.json();
 
+
+
+
+//Get all of the reviews from a user
+router.get('/:id/review', (req, res) => {
+
+})
+
+
+
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
     const requiredFields = ['username', 'password'];

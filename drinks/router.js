@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 
 
-
+//get a drink
 router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
@@ -26,6 +26,13 @@ router.get('/:id', (req, res) => {
     })
 });
 
+
+
+//Get all of the reviews for a drink
+router.get('/:id/reviews', (req, res) => {
+  // return Review.find()
+  //   .then(reviews => res.json)
+})
 
 
 
@@ -57,19 +64,11 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
 
-//???? this format is in some of my old code... promises are better right?????
-  // Drink.remove({_id: req.params.id}, function(err) {
-  //   if(err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log("Drink has been deleted successfully.")
-  //   }
-  // })
-
   Drink.remove({_id: req.params.id})
+    .exec()
     .then(drink => {
       console.log("Successfully deleted drink.");
-      res.status(204);
+      res.status(204).send();
     })
     .catch(err => {
       console.log("Error: ", err);

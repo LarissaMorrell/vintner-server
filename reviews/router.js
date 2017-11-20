@@ -13,17 +13,6 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 })
 
-//Get all of the reviews written by a user
-router.get('/', (req, res) => {
-  // return Review.find()
-  //   .then(reviews => res.json)
-})
-
-
-//Get all of the reviews of a drink
-router.get('/', (req, res) => {
-
-})
 
 //Get one review
 router.get('/:id', (req, res) => {
@@ -40,17 +29,6 @@ router.get('/:id', (req, res) => {
 
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['rating'];//, 'user', 'drink'];
-
-  //?????? why did this code not work instead of the for loops inside drinks and companies???
-  // const missingField = requiredFields.find(field => !(field in req.body));
-  //
-  // if (missingField) {
-  //   return res.status(422).json({
-  //     code: 422,
-  //     reason: 'ValidationError',
-  //     message: 'Missing Field'
-  //   })
-  // }
 
   for(let field of requiredFields){
     if (!(field in req.body)) {
@@ -93,33 +71,29 @@ router.put('/:id', (req, res) => {
     console.error(message);
     return res.status(400).send(message);
   }
+  const toUpdate = {};
+    const updateableFields = ['rating', 'title', 'comment', 'price', 'purchased', 'flavors'];
 
-  //TODO add trim() later?
-  Review.update({
-    id: req.params.id,
-    rating: req.body.rating,
-    title: req.body.title,
-    comment: req.body.comment,
-    price: req.body.price,
-    purchased: req.body.purchased,
-    flavors: req.body.flavors
-  })
-    .then(review => {
-      console.log("Successfully updated review.");
-      res.status(204);
-    })
-    .catch(err => {
-      console.log("Error: ", err);
-      res.status(404).json({ error: 'Failed to update review' });
-    })
-})
+    updateableFields.forEach(field => {
+      if (field in req.body) {
+        toUpdate[field] = req.body[field];
+      }
+    });
+
+    Review
+      .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+      .exec()
+      .then(review => res.status(200).json(review.apiRepr()))
+      .catch(err => res.status(500).json({message: 'Failure to update review'}));
+  });
 
 
 router.delete('/:id', (req, res) => {
   Review.remove({_id: req.params.id})
+    .exec()
     .then(review => {
       console.log("Successfully deleted review.");
-      res.status(204);
+      res.status(204).send();
     })
     .catch(err => {
       console.log("Error: ", err);

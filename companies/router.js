@@ -64,44 +64,36 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
 
   if (req.params.id !== req.body.id) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id `
-      `(${req.body.id}) must match`
-    );
+    const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
     console.error(message);
     return res.status(400).send(message);
   }
 
-  //TODO add trim() later?
-  Company.update({
-    id: req.params.id,
-    name: req.body.name,
-    streetAddress: req.body.streetAddress,
-    city: req.body.city,
-    state: req.body.state,
-    hours: req.body.hours, // [ {open: 10, close: 18},{} ]
-    imageUrl: req.body.imageUrl,
-    types: req.body.types,
-    drinks: req.body.drinks
-  })
-    .then(company => {
-      console.log("Successfully updated company.");
-      res.status(204);
-    })
-    .catch(err => {
-      console.log("Error: ", err);
-      res.status(404).json({ error: 'Failed to update company' });
-    })
-})
+const toUpdate = {};
+  const updateableFields = ['name', 'streetAddress', 'city', 'state', 'hours', 'imageUrl', 'types', 'drinks'];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
+  });
+
+  Company
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .exec()
+    .then(company => res.status(200).json(company.apiRepr()))
+    .catch(err => res.status(500).json({message: 'Failure to update company'}));
+});
 
 
 
 router.delete('/:id', (req, res) => {
 
   Company.remove({_id: req.params.id})
+    .exec() //make a promise
     .then(company => {
       console.log("Successfully deleted company.");
-      res.status(204);
+      res.status(204).send();
     })
     .catch(err => {
       console.log("Error: ", err);
