@@ -84,4 +84,46 @@ router.post('/', jsonParser, (req, res) => {
 
 
 
+router.delete('/:id', (req, res) => {
+
+  Review.remove({_id: req.params.id})
+    .then(review => {
+      console.log("Successfully deleted review.");
+      res.status(204);
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(404).json({ error: 'something went terribly wrong' });
+    })
+
+})
+
+
+
+
+// {
+//         "id": "5a120f5cfc5fe912ae7e2e19",
+//         "rating": 3,
+//         "title": "Nice flavor, but looks strange",
+//         "comment": "This is a very short comment in this place",
+//         "price": 45,
+//         "purchased": true,
+//         "flavors": [
+//             "dry",
+//             "hoppy"
+//         ]
+//     },
+    // {
+    //     "id": "5a12192b12c82e1489d451f9",
+    //     "rating": 1,
+    //     "title": "Yuck this is the worst",
+    //     "comment": "",
+    //     "price": 5,
+    //     "purchased": false,
+    //     "flavors": [
+    //         "sweet",
+    //         "hoppy"
+    //     ]
+    // }
+
 module.exports = {router};
