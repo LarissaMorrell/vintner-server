@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   return Company.find()
+    // .populate("drinks") //uncomment if we need drinks for all companies
     .then(companies => res.json(companies.map(company => company.apiRepr())))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
@@ -19,6 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   return Company
     .findById(req.params.id)
+    .populate("drinks")
     .then(company => res.json(company.apiRepr())) //no render bc in component?
     .catch(err => {
       console.error(err);

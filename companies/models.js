@@ -8,7 +8,7 @@ const CompanySchema = mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
 
-    hours: { type: Array, default: [{}, {}, {}, {}, {}, {}, {},] }, // [ {open: 10, close: 18},{} ]
+    hours: { type: Array, default: [{}, {}, {}, {}, {}, {}, {}] }, // [ {open: 10, close: 18},{} ]
     imageUrl: { type: String, default:"" },
     types: { type: Array, default:[] },
     drinks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}]
@@ -23,7 +23,8 @@ CompanySchema.methods.apiRepr = function() {
     state: this.state,
     hours: this.hours, // [ {open: 10, close: 18},{} ]
     imageUrl: this.imageUrl,
-    types: this.types
+    types: this.types,
+    drinks: this.drinks
   };
 }
 
