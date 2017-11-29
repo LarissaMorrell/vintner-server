@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 const DrinkSchema = mongoose.Schema({
     name: { type: String, required: true },
     type: { type: String , required: true },
+    company: {type: mongoose.Schema.Types.ObjectId, ref: 'Company'},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 
@@ -16,7 +17,8 @@ DrinkSchema.methods.apiRepr = function() {
     return {
         id: this._id,
         name: this.name,
-        type: this.type
+        type: this.type,
+        company: this.company
         // rating:this.rating
     };
 };
@@ -25,11 +27,3 @@ DrinkSchema.methods.apiRepr = function() {
 const Drink = mongoose.model('Drink', DrinkSchema);
 
 module.exports = {Drink};
-
-
-// "drinks": [
-//
-//           "name": "Porter",
-//           "rating": 4,
-//           "type": "spirit",
-//           "reviews": [

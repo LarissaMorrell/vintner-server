@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   return Drink.find()
+    .populate("company")
     .then(drinks => res.json(drinks.map(drink => drink.apiRepr())))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
@@ -19,6 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
+    .populate("company")
     .then(drink => res.json(drink.apiRepr()))
     .catch(err => {
       console.error(err);
@@ -37,7 +39,7 @@ router.get('/:id/reviews', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const requiredFields = ['name', 'type'];
+  const requiredFields = ['name', 'type', 'company'];
   for(let field of requiredFields){
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
