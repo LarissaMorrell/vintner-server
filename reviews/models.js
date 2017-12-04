@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 const ReviewSchema = mongoose.Schema({
     rating: { type: Number, required: true },
-    title: { type: String },
+    title: { type: String, required: true },
     comment: { type: String, default: ''},
     price: { type: Number, default: ''},
     purchased: { type: Boolean },

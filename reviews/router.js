@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const passport = require('passport');
+const {Drink} = require('../drinks/models');
 const {Review} = require('./models');
 const router = express.Router();
 
@@ -26,9 +27,9 @@ router.get('/:id', (req, res) => {
 
 
 
-
-router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['rating'];//, 'user', 'drink'];
+/* authenticate user for the review */
+router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+  const requiredFields = ['rating', 'drink', 'title'];
 
   for(let field of requiredFields){
     if (!(field in req.body)) {
@@ -38,18 +39,26 @@ router.post('/', jsonParser, (req, res) => {
     }
   }
 
-  //TODO Fix trim()... if the keys aren't present trim throws error
+  let review;
   Review.create({
     rating: req.body.rating,
     title: req.body.title,
     comment: req.body.comment,
     price: req.body.price,
     purchased: req.body.purchased,
-    flavors: req.body.flavors
-    // user:
-    //drink:
+    flavors: req.body.flavors,
+    user: req.user.id,
+    drink: req.body.drink
   })
-  .then(review => {
+  .then(_review =>{
+      review = _review;
+      return Drink.findById(req.body.drink);
+  })
+  .then(drink => {
+    drink.reviews.push(req.body.drink);
+    return drink.save();
+  })
+  .then(drink => {
     console.log("Sucessfully created a review.");
     res.status(201).json(review);
   })
