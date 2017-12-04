@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-
+const {Company} = require('../companies/models');
 const {Drink} = require('./models');
 
 const router = express.Router();
@@ -47,13 +47,22 @@ router.post('/', (req, res) => {
       return res.status(400).send(message)
     }
   }
-
+  let drink;
   Drink.create({
     name: req.body.name,
     type: req.body.type,
-    reviews: req.body.reviews
+    reviews: req.body.reviews,
+    company: req.body.company
   })
-  .then(drink => {
+  .then(_drink => {
+    drink = _drink;
+    return Company.findById(req.body.company);
+  })
+  .then(company => {
+    company.drinks.push(drink.id);
+    return company.save();
+  })
+  .then(company => {
     console.log("Successfully created a drink.");
     res.status(201).json(drink);
   })

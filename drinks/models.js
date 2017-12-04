@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise;
 const DrinkSchema = mongoose.Schema({
     name: { type: String, required: true },
     type: { type: String , required: true },
-    company: {type: mongoose.Schema.Types.ObjectId, ref: 'Company'},
+    company: {type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 

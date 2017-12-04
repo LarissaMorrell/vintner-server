@@ -9,9 +9,8 @@ const ReviewSchema = mongoose.Schema({
     price: { type: Number, default: ''},
     purchased: { type: Boolean },
     flavors: { type: Array },
-    //TODO user and drink need to be required
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    drink: {type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    drink: {type: mongoose.Schema.Types.ObjectId, ref: 'Drink', required: true}
 });
 
 ReviewSchema.methods.apiRepr = function() {
@@ -22,8 +21,9 @@ ReviewSchema.methods.apiRepr = function() {
       comment: this.comment,
       price: this.price,
       purchased: this.purchased,
-      flavors: this.flavors
-      //TODO add user and drink
+      flavors: this.flavors,
+      user: this.user,
+      drink: this.drink
     };
 };
 
