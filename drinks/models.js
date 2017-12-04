@@ -18,7 +18,8 @@ DrinkSchema.methods.apiRepr = function() {
         id: this._id,
         name: this.name,
         type: this.type,
-        company: this.company
+        company: this.company,
+        reviews: this.reviews
         // rating:this.rating
     };
 };

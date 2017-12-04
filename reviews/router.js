@@ -55,7 +55,7 @@ router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (re
       return Drink.findById(req.body.drink);
   })
   .then(drink => {
-    drink.reviews.push(req.body.drink);
+    drink.reviews.push(req.body.id);
     return drink.save();
   })
   .then(drink => {

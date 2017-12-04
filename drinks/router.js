@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const {Review} = require('../reviews/models');
 const {Company} = require('../companies/models');
 const {Drink} = require('./models');
 
@@ -21,6 +22,7 @@ router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
     .populate("company")
+    .populate("review")
     .then(drink => res.json(drink.apiRepr()))
     .catch(err => {
       console.error(err);
@@ -71,6 +73,33 @@ router.post('/', (req, res) => {
   	res.status(500).json({ error: 'Failed to create drink' });
   });
 })
+
+
+
+router.put('/:id', (req, res) => {
+
+  if (req.params.id !== req.body.id) {
+    const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
+    console.error(message);
+    return res.status(400).send(message);
+  }
+
+const toUpdate = {};
+  const updateableFields = ['name', 'type', 'company', 'reviews'];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
+  });
+
+  Drink
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .exec()
+    .then(drink => res.status(200).json(drink.apiRepr()))
+    .catch(err => res.status(500).json({message: 'Failure to update drink'}));
+});
+
 
 
 router.delete('/:id', (req, res) => {
