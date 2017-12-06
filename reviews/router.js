@@ -100,8 +100,23 @@ router.put('/:id', (req, res) => {
 
 
 router.delete('/:id', (req, res) => {
+  let review;
   Review.remove({_id: req.params.id})
     .exec()
+    .then(_review => {
+      review = _review;
+      return Drink.findById(req.body.drink);
+    })
+    .then(drink => {
+      let index = drink.reviews.indexOf(review.id);
+      if(index >= 0){
+        console.log("index", index);
+        drink.reviews.splice(index, 1);
+        return drink.save();
+      }
+      console.log("no saving...", index);
+      return drink;
+    })
     .then(review => {
       console.log("Successfully deleted review.");
       res.status(204).send();
