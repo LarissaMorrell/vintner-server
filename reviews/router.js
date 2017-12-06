@@ -102,26 +102,21 @@ router.delete('/:id', (req, res) => {
   Review.findById({_id: req.params.id})
     .then(review => {
       let drinkId = review.drink;
-      return drinkId;
+      return Drink.findById(drinkId);
     })
-    .then(drinkId => {
-      //delete the review Id from the drink
-      Drink.findById(drinkId)
-        .then(drink => {
-          let index = drink.reviews.indexOf(reviewId);
-          drink.reviews.splice(index, 1);
-          return drink.save();
-        })
-      return;
+    //delete the review Id from the drink
+    .then(drink => {
+      let index = drink.reviews.indexOf(req.params.id);
+      drink.reviews.splice(index, 1);
+      return drink.save();
     })
-    .then(() => {
+    .then(drink => {
       //delete from Review
-      Review.remove({_id: req.params.id})
-        .exec()
-        .then(review => {
-          console.log("Successfully deleted review.");
-          return res.status(204).send();
-        })
+      return Review.remove({_id: req.params.id})
+    })
+    .then(review => {
+      console.log("Successfully deleted review.");
+      return res.status(204).send();
     })
     .catch(err => {
       console.log("Error: ", err);
