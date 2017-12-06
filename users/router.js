@@ -9,10 +9,17 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 
+router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => {
 
-
-//Get all of the reviews from a user
-router.get('/:id/review', (req, res) => {
+  User.findById(req.user.id)
+    .populate("reviews")
+    .then(user => {
+      return res.json(user.apiReprWithReviews());
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(500).json({ error: 'Failed to get user' });
+    })
 
 })
 

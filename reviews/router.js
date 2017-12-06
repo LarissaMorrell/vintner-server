@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const {Drink} = require('../drinks/models');
+const {User} = require('../users/models');
 const {Review} = require('./models');
 const router = express.Router();
 
@@ -57,6 +58,13 @@ router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (re
   .then(drink => {
     drink.reviews.push(review.id);
     return drink.save();
+  })
+  .then(drink => {
+    return User.findById(req.user.id)
+  })
+  .then(user => {
+    user.reviews.push(review.id);
+    return user.save();
   })
   .then(drink => {
     console.log("Sucessfully created a review.");

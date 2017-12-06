@@ -26,6 +26,15 @@ UserSchema.methods.apiRepr = function() {
         lastName: this.lastName || ''
     };
 };
+UserSchema.methods.apiReprWithReviews = function() {
+    return {
+        id: this._id,
+        username: this.username || '',
+        firstName: this.firstName || '',
+        lastName: this.lastName || '',
+        reviews: this.reviews
+    };
+};
 
 UserSchema.methods.validatePassword = function(password) {
     return bcrypt.compare(password, this.password);
