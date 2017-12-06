@@ -52,10 +52,12 @@ router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (re
   })
   .then(_review =>{
       review = _review;
+      console.log("req.body.id", Drink.findById(req.body.drink));
       return Drink.findById(req.body.drink);
   })
   .then(drink => {
-    drink.reviews.push(req.body.id);
+    console.log("drink", drink);
+    drink.reviews.push(review.id);
     return drink.save();
   })
   .then(drink => {
