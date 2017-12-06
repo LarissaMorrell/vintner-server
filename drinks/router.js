@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   return Drink.find()
     .populate("company")
-    .populate("drinks")
+    .populate("reviews")
     .then(drinks => res.json(drinks.map(drink => drink.apiRepr())))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
   return Drink
     .findById(req.params.id)
     .populate("company")
-    .populate("review")
+    .populate("reviews")
     .then(drink => res.json(drink.apiRepr()))
     .catch(err => {
       console.error(err);

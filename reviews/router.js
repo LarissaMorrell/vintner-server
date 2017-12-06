@@ -52,11 +52,9 @@ router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (re
   })
   .then(_review =>{
       review = _review;
-      console.log("req.body.id", Drink.findById(req.body.drink));
       return Drink.findById(req.body.drink);
   })
   .then(drink => {
-    console.log("drink", drink);
     drink.reviews.push(review.id);
     return drink.save();
   })
@@ -100,59 +98,36 @@ router.put('/:id', (req, res) => {
 
 
 router.delete('/:id', (req, res) => {
-  let review;
-  Review.remove({_id: req.params.id})
-    .exec()
-    .then(_review => {
-      review = _review;
-      return Drink.findById(req.body.drink);
-    })
-    .then(drink => {
-      let index = drink.reviews.indexOf(review.id);
-      if(index >= 0){
-        console.log("index", index);
-        drink.reviews.splice(index, 1);
-        return drink.save();
-      }
-      console.log("no saving...", index);
-      return drink;
-    })
+  //get the drink id from the review
+  Review.findById({_id: req.params.id})
     .then(review => {
-      console.log("Successfully deleted review.");
-      res.status(204).send();
+      let drinkId = review.drink;
+      return drinkId;
+    })
+    .then(drinkId => {
+      //delete the review Id from the drink
+      Drink.findById(drinkId)
+        .then(drink => {
+          let index = drink.reviews.indexOf(reviewId);
+          drink.reviews.splice(index, 1);
+          return drink.save();
+        })
+      return;
+    })
+    .then(() => {
+      //delete from Review
+      Review.remove({_id: req.params.id})
+        .exec()
+        .then(review => {
+          console.log("Successfully deleted review.");
+          return res.status(204).send();
+        })
     })
     .catch(err => {
       console.log("Error: ", err);
-      res.status(404).json({ error: 'Failed to delete review' });
-    })
+      return res.status(404).json({ error: 'Failed to delete review' });
+    });
 })
 
-
-
-
-// {
-//         "id": "5a120f5cfc5fe912ae7e2e19",
-//         "rating": 3,
-//         "title": "Nice flavor, but looks strange",
-//         "comment": "This is a very short comment in this place",
-//         "price": 45,
-//         "purchased": true,
-//         "flavors": [
-//             "dry",
-//             "hoppy"
-//         ]
-//     },
-    // {
-    //     "id": "5a12192b12c82e1489d451f9",
-    //     "rating": 1,
-    //     "title": "Yuck this is the worst",
-    //     "comment": "",
-    //     "price": 5,
-    //     "purchased": false,
-    //     "flavors": [
-    //         "sweet",
-    //         "hoppy"
-    //     ]
-    // }
 
 module.exports = {router};
