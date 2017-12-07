@@ -13,10 +13,10 @@ router.get('/', (req, res) => {
     .populate("company")
     .populate("reviews")
     .then(drinks => res.json(drinks.map(drink => drink.apiRepr())))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+    .catch(err => res.status(500).json({
+      message: 'Internal3322 server error'
+    }));
 });
-
-
 
 //get a drink
 router.get('/:id', (req, res) => {
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
     .findById(req.params.id)
     .populate("company")
     .populate("reviews")
-    .then(drink => res.json(drink.apiRepr()))
+    .then(drink => res.json(drink.apiReprWithRating()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' })
