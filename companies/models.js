@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 mongoose.Promise = global.Promise;
 
@@ -14,6 +15,8 @@ const CompanySchema = mongoose.Schema({
     drinks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}]
 });
 
+CompanySchema.plugin(deepPopulate);
+
 CompanySchema.methods.apiRepr = function() {
   return {
     id: this._id,
@@ -27,6 +30,24 @@ CompanySchema.methods.apiRepr = function() {
     drinks: this.drinks
   };
 }
+CompanySchema.methods.apiReprWithRating = function() {
+  let drinks = this.drinks.map((drink)=> drink.apiReprWithRating())
+  let companyRatingSum = drinks.reduce((sum, drink)=> drink.rating + sum, 0) ;
+
+  return {
+    id: this._id,
+    name: this.name,
+    streetAddress: this.streetAddress,
+    city: this.city,
+    state: this.state,
+    hours: this.hours, // [ {open: 10, close: 18},{} ]
+    imageUrl: this.imageUrl,
+    types: this.types,
+    drinks: drinks,
+    rating: (companyRatingSum / this.drinks.length) || 0 
+  };
+}
+
 
 // VIRTUALS
 // rating avg drinks rating >> drinks=avg of reviews rating

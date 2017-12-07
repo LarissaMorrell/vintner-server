@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const mongoose = require('mongoose');
+
 
 const {Company} = require('./models');
 
@@ -21,7 +23,8 @@ router.get('/:id', (req, res) => {
   return Company
     .findById(req.params.id)
     .populate("drinks")
-    .then(company => res.json(company.apiRepr())) //no render bc in component?
+    .deepPopulate("drinks.reviews")
+    .then(company => res.json(company.apiReprWithRating())) //no render bc in component?
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' })

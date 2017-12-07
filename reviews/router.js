@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 
 
 /* authenticate user for the review */
-router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+router.post('/', jsonParser, /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
   const requiredFields = ['rating', 'drink', 'title'];
 
   for(let field of requiredFields){
