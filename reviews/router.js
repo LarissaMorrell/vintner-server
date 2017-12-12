@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 
 //Get one review
 router.get('/:id', (req, res) => {
+  log("\n\n\n\nRequest:\n", req);
   return Review.findById(req.params.id)
     .then(review => res.json(review.apiRepr()))
     .catch(err => {
@@ -29,7 +30,7 @@ router.get('/:id', (req, res) => {
 
 
 /* authenticate user for the review */
-router.post('/', jsonParser, /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
+router.post('/', jsonParser, passport.authenticate('jwt', {session: false}), (req, res) => {
   const requiredFields = ['rating', 'drink', 'title'];
 
   for(let field of requiredFields){
