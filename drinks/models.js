@@ -33,7 +33,7 @@ DrinkSchema.methods.apiReprWithRating = function() {
     type: this.type,
     company: this.company,
     reviews: this.reviews,
-    rating: (ratingSum / this.reviews.length) || 0 
+    rating: (ratingSum / this.reviews.length) || 0
   }
   return drink;
 };

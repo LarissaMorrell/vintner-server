@@ -10,7 +10,7 @@ const CompanySchema = mongoose.Schema({
     state: { type: String, required: true },
 
     hours: { type: Array, default: ["","","","","","",""] }, // [ {open: 10, close: 18},{} ]
-    imageUrl: { type: String, default:"" },
+    imageUrl: { type: String, default:"https://www.narda-sts.com/fileadmin/_processed_/csm_no-image-available_EN_3dd8d65e1e.png" },
     types: { type: Array, default:[] },
     drinks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}]
 });
@@ -44,25 +44,9 @@ CompanySchema.methods.apiReprWithRating = function() {
     imageUrl: this.imageUrl,
     types: this.types,
     drinks: drinks,
-    rating: (companyRatingSum / this.drinks.length) || 0 
+    rating: (companyRatingSum / this.drinks.length) || 0
   };
 }
-
-
-// VIRTUALS
-// rating avg drinks rating >> drinks=avg of reviews rating
-// totalReviewCount
-
-// CompanySchema.virtual('rating').get(function(){
-//      return `${this.firstName} ${this.lastName}`;}
-
-// userSchema.methods.apiRepr = function(){
-//      return {
-//           id: this._id,
-//           name: this.fullName,
-//           email: this.email }
-
-
 
 const Company = mongoose.model('Company', CompanySchema);
 

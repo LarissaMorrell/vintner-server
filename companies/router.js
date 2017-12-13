@@ -11,8 +11,9 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   return Company.find()
-    // .populate("drinks") //uncomment if we need drinks for all companies
-    .then(companies => res.json(companies.map(company => company.apiRepr())))
+    .populate("drinks") //uncomment if we need drinks for all companies
+    .deepPopulate("drinks.reviews")
+    .then(companies => res.json(companies.map(company => company.apiReprWithRating())))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
