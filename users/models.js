@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const UserSchema = mongoose.Schema({
     username: {
@@ -17,6 +18,8 @@ const UserSchema = mongoose.Schema({
     lastName: {type: String, default: ''},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
+
+UserSchema.plugin(deepPopulate);
 
 UserSchema.methods.apiRepr = function() {
     return {

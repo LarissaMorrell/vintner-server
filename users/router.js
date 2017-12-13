@@ -13,6 +13,7 @@ router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => 
 
   User.findById(req.user.id)
     .populate("reviews")
+    .deepPopulate("reviews.drink")
     .then(user => {
       return res.json(user.apiReprWithReviews());
     })
