@@ -18,7 +18,6 @@ router.get('/', (req, res) => {
 
 //Get one review
 router.get('/:id', (req, res) => {
-  log("\n\n\n\nRequest:\n", req);
   return Review.findById(req.params.id)
     .then(review => res.json(review.apiRepr()))
     .catch(err => {

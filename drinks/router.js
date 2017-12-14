@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
   return Drink.find()
     .populate("company")
     .populate("reviews")
+    .deepPopulate("reviews.user")
     .then(drinks => res.json(drinks.map(drink => drink.apiRepr())))
     .catch(err => res.status(500).json({
       message: 'Internal3322 server error'
@@ -24,6 +25,7 @@ router.get('/:id', (req, res) => {
     .findById(req.params.id)
     .populate("company")
     .populate("reviews")
+    .deepPopulate("reviews.user")
     .then(drink => res.json(drink.apiReprWithRating()))
     .catch(err => {
       console.error(err);

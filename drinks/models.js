@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 mongoose.Promise = global.Promise;
 
@@ -9,11 +10,7 @@ const DrinkSchema = mongoose.Schema({
   reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 
-
-
-// VIRTUALS
-// rating average all of the reviews.rating
-//
+DrinkSchema.plugin(deepPopulate);
 
 DrinkSchema.methods.apiRepr = function() {
   return {
