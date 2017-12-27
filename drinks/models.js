@@ -7,6 +7,7 @@ const DrinkSchema = mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String , required: true },
   company: {type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true},
+  description: {type: String},
   reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 
@@ -17,9 +18,9 @@ DrinkSchema.methods.apiRepr = function() {
     id: this._id,
     name: this.name,
     type: this.type,
+    description: this.description,
     company: this.company,
-    reviews: this.reviews,
-    //  rating:this.rating
+    reviews: this.reviews
   };
 };
 DrinkSchema.methods.apiReprWithRating = function() {
@@ -28,6 +29,7 @@ DrinkSchema.methods.apiReprWithRating = function() {
     id: this._id,
     name: this.name,
     type: this.type,
+    description: this.description,
     company: this.company,
     reviews: this.reviews,
     rating: (ratingSum / this.reviews.length) || 0

@@ -35,14 +35,6 @@ router.get('/:id', (req, res) => {
 
 
 
-//Get all of the reviews for a drink
-router.get('/:id/reviews', (req, res) => {
-  // return Review.find()
-  //   .then(reviews => res.json)
-})
-
-
-
 router.post('/', (req, res) => {
   const requiredFields = ['name', 'type', 'company'];
   for(let field of requiredFields){
@@ -56,6 +48,7 @@ router.post('/', (req, res) => {
   Drink.create({
     name: req.body.name,
     type: req.body.type,
+    description: req.body.description,
     reviews: req.body.reviews,
     company: req.body.company
   })
@@ -88,7 +81,7 @@ router.put('/:id', (req, res) => {
   }
 
 const toUpdate = {};
-  const updateableFields = ['name', 'type', 'company', 'reviews'];
+  const updateableFields = ['name', 'type', 'description', 'company', 'reviews'];
 
   updateableFields.forEach(field => {
     if (field in req.body) {
