@@ -9,7 +9,7 @@ const CompanySchema = mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
 
-    hours: { type: Array, default: ["","","","","","",""] }, // [ {open: 10, close: 18},{} ]
+    hours: { type: Array, default: ["","","","","","",""] },
     imageUrl: { type: String, default:"https://www.narda-sts.com/fileadmin/_processed_/csm_no-image-available_EN_3dd8d65e1e.png" },
     types: { type: Array, default:[] },
     drinks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Drink'}]
@@ -24,7 +24,7 @@ CompanySchema.methods.apiRepr = function() {
     streetAddress: this.streetAddress,
     city: this.city,
     state: this.state,
-    hours: this.hours, // [ {open: 10, close: 18},{} ]
+    hours: this.hours,
     imageUrl: this.imageUrl,
     types: this.types,
     drinks: this.drinks
@@ -40,7 +40,7 @@ CompanySchema.methods.apiReprWithRating = function() {
     streetAddress: this.streetAddress,
     city: this.city,
     state: this.state,
-    hours: this.hours, // [ {open: 10, close: 18},{} ]
+    hours: this.hours,
     imageUrl: this.imageUrl,
     types: this.types,
     drinks: drinks,
