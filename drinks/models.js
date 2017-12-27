@@ -38,10 +38,6 @@ DrinkSchema.methods.apiReprWithRating = function() {
 };
 
 
-
-
-
-
 const Drink = mongoose.model('Drink', DrinkSchema);
 
 module.exports = {Drink};
