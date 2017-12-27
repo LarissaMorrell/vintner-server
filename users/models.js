@@ -16,6 +16,10 @@ const UserSchema = mongoose.Schema({
     },
     firstName: {type: String, default: ''},
     lastName: {type: String, default: ''},
+    avatar: {
+      type: String,
+      required: true
+    },
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 });
 
@@ -26,7 +30,8 @@ UserSchema.methods.apiRepr = function() {
         id: this._id,
         username: this.username || '',
         firstName: this.firstName || '',
-        lastName: this.lastName || ''
+        lastName: this.lastName || '',
+        avatar: this.avatar || ''
     };
 };
 UserSchema.methods.apiReprWithReviews = function() {
@@ -35,6 +40,7 @@ UserSchema.methods.apiReprWithReviews = function() {
         username: this.username || '',
         firstName: this.firstName || '',
         lastName: this.lastName || '',
+        avatar: this.avatar || '',
         reviews: this.reviews
     };
 };

@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-
 const {User} = require('./models');
 
 const router = express.Router();
@@ -28,9 +27,8 @@ router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => 
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
-    const requiredFields = ['username', 'password'];
+    const requiredFields = ['username', 'password', 'avatar'];
     const missingField = requiredFields.find(field => !(field in req.body));
-
     if (missingField) {
         return res.status(422).json({
             code: 422,
@@ -40,7 +38,7 @@ router.post('/', jsonParser, (req, res) => {
         });
     }
 
-    const stringFields = ['username', 'password', 'firstName', 'lastName'];
+    const stringFields = ['username', 'password', 'firstName', 'lastName', 'avatar'];
     const nonStringField = stringFields.find(
         field => field in req.body && typeof req.body[field] !== 'string'
     );
@@ -110,7 +108,7 @@ router.post('/', jsonParser, (req, res) => {
         });
     }
 
-    let {username, password, firstName = '', lastName = ''} = req.body;
+    let {username, password, firstName = '', lastName = '', avatar} = req.body;
     // Username and password come in pre-trimmed, otherwise we throw an error
     // before this
     firstName = firstName.trim();
@@ -136,7 +134,8 @@ router.post('/', jsonParser, (req, res) => {
                 username,
                 password: hash,
                 firstName,
-                lastName
+                lastName,
+                avatar
             });
         })
         .then(user => {
