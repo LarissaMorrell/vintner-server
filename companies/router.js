@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
     streetAddress: req.body.streetAddress,
     city: req.body.city,
     state: req.body.state,
-    hours: req.body.hours, // [ {open: 10, close: 18},{} ]
+    hours: req.body.hours,
     imageUrl: req.body.imageUrl,
     types: req.body.types,
     drinks: req.body.drinks
@@ -107,20 +107,4 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-
-// {
-//   "name": "Awesome winery",
-//   "streetAddress": "1 shore drive",
-//   "city": "boston",
-//   "state": "MA",
-//   "hours": [ {"open": 10, "close": 18},
-//     {"open": 10, "close": 18},
-//     {"open": 10, "close": 18},
-//     {"open": 10, "close": 18},
-//     {"open": 10, "close": 18},
-//     {"open": 10, "close": 18},
-//     {"open": 10, "close": 18} ],
-//   "imageUrl": "boy1.png",
-//   "types": ["wine", "mead"]
-// }
 module.exports = {router};
