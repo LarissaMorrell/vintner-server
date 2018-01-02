@@ -277,13 +277,13 @@ describe('/api/user', function() {
                         expect(res.body.location).to.equal('username');
                     });
             });
-            it('Should reject users with password less than ten characters', function() {
+            it('Should reject users with password less than eight characters', function() {
                 return chai
                     .request(app)
                     .post('/api/users')
                     .send({
                         username,
-                        password: '123456789',
+                        password: '1234567',
                         firstName,
                         lastName
                     })
