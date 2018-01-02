@@ -68,17 +68,18 @@ router.post('/', jsonParser, (req, res) => {
         return res.status(422).json({
             code: 422,
             reason: 'ValidationError',
-            message: 'Cannot start or end with whitespace',
+            message: 'Cannot start or end with spaces',
             location: nonTrimmedField
         });
     }
 
     const sizedFields = {
         username: {
-            min: 1
+            min: 1,
+            max: 15
         },
         password: {
-            min: 10,
+            min: 8,
             // bcrypt truncates after 72 characters, so let's not give the illusion
             // of security by storing extra (unused) info
             max: 72
@@ -101,9 +102,9 @@ router.post('/', jsonParser, (req, res) => {
             reason: 'ValidationError',
             message: tooSmallField
                 ? `Must be at least ${sizedFields[tooSmallField]
-                      .min} characters long`
-                : `Must be at most ${sizedFields[tooLargeField]
-                      .max} characters long`,
+                      .min} characters`
+                : `Must be ${sizedFields[tooLargeField]
+                      .max} characters or less`,
             location: tooSmallField || tooLargeField
         });
     }
