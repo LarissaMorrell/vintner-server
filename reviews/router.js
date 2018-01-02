@@ -105,7 +105,7 @@ router.put('/:id', (req, res) => {
   });
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
   //get the drink id from the review
   Review.findById({_id: req.params.id})
     .then(review => {
@@ -121,6 +121,14 @@ router.delete('/:id', (req, res) => {
     .then(drink => {
       //delete from Review
       return Review.remove({_id: req.params.id})
+    })
+    .then(review => {
+      return User.findById(req.user.id);
+    })
+    .then(user => {
+      let index = user.reviews.indexOf(req.params.id);
+      user.reviews.splice(index, 1);
+      return user.save();
     })
     .then(review => {
       console.log("Successfully deleted review.");
