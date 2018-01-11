@@ -23,9 +23,61 @@ This app was built with JavaScript, Node.js, MongoDB, and Mongoose. The reposito
 * Mocha - Test framework (https://mochajs.org/)
 
 ### Tasks ###
+```
+* Implement the User endpoint
+  * User model
+  * User route
+  * Functional tests
+* Implement the Company endpoint
+  * Company model
+  * Company route
+* Implement the Drink endpoint
+  * Drink model
+  * Drink route
+* Implement the Review endpoint
+  * Review model
+  * Review route
+```
 
-
-
+### REST Collections ###
+##### Users #####
+```
+- /api/users
+  - GET: [ {User} ]
+  - POST: new {User}
+- /api/users/me
+  - GET: shows {User}
+```
+##### Companies #####
+```
+- /api/companies
+  - GET: [ {Company} ]
+  - POST: new {Company}
+- /api/companies/:id
+  - GET: shows {Company}
+  - PUT: updates {Company}
+  - DELETE: destroys {Company}
+```
+##### Drinks #####
+```
+- /api/drinks
+  - GET: [ {Drink} ]
+  - POST: new {Drink}
+- /api/drinks/:id
+  - GET: shows {Drink}
+  - PUT: updates {Drink}
+  - DELETE: destroys {Drink}
+```
+##### Reviews #####
+```
+- /api/reviews
+  - GET: [ {Review} ]
+  - POST: new {Review}
+- /api/reviews/:id
+  - GET: shows {Review}
+  - PUT: updates {Review}
+  - DELETE: destroys {Review}
+```
 
 ### Development Roadmap ###
 This is v1.0 of the app, but future updates and enhancements are expected to include:
