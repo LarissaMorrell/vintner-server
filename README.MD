@@ -23,7 +23,6 @@ This app was built with JavaScript, Node.js, MongoDB, and Mongoose. The reposito
 * Mocha - Test framework (https://mochajs.org/)
 
 ### Tasks ###
-```
 * Implement the User endpoint
   * User model
   * User route
@@ -37,7 +36,6 @@ This app was built with JavaScript, Node.js, MongoDB, and Mongoose. The reposito
 * Implement the Review endpoint
   * Review model
   * Review route
-```
 
 ### REST Collections ###
 ##### Users #####
