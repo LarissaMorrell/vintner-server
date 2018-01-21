@@ -38,7 +38,7 @@ describe("Auth endpoints", function() {
         firstName,
         lastName,
         avatar
-      }).then(User => (id = User.id))
+      }).then(user => (id = user.id))
     );
   });
 
