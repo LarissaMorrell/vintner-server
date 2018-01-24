@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const { app, runServer, closeServer } = require("../server");
 const { User } = require("../users");
-const { JWT_SECRET } = require("../config");
+const { JWT_SECRET, TEST_DATABASE_URL } = require("../config");
 
 const expect = chai.expect;
 
@@ -26,7 +26,7 @@ describe("/api/user", function() {
   const avatar = "girl1";
 
   before(function() {
-    return runServer();
+    return runServer(TEST_DATABASE_URL);
   });
 
   after(function() {
