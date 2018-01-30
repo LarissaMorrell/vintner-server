@@ -4,13 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const passport = require("passport");
-// Here we use destructuring assignment with renaming so the two variables
-// called router (from ./users and ./auth) have different names
-// For example:
-// const actorSurnames = { james: "Stewart", robert: "De Niro" };
-// const { james: jimmy, robert: bobby } = actorSurnames;
-// console.log(jimmy); // Stewart - the variable name is jimmy, not james
-// console.log(bobby); // De Niro - the variable name is bobby, not robert
+
 const { router: usersRouter } = require("./users");
 const { router: authRouter, basicStrategy, jwtStrategy } = require("./auth");
 const { router: companiesRouter } = require("./companies");
@@ -19,7 +13,7 @@ const { router: reviewsRouter } = require("./reviews");
 
 mongoose.Promise = global.Promise;
 
-const { PORT, TEST_DATABASE_URL } = require("./config");
+const { PORT, DATABASE_URL } = require("./config");
 const app = express();
 
 // Logging
@@ -50,15 +44,11 @@ app.use("/api/drinks/", drinksRouter);
 app.use("/api/reviews/", reviewsRouter);
 
 // A protected endpoint which needs a valid JWT to access it
-app.get(
-  "/api/protected",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    return res.json({
-      data: "rosebud"
-    });
-  }
-);
+app.get("/api/wakeup", (req, res) => {
+  return res.json({
+    data: "waking up server"
+  });
+});
 
 app.use("*", (req, res) => {
   return res.status(404).json({ message: "Not Found" });
