@@ -57,7 +57,6 @@ app.use("*", (req, res) => {
 // Referenced by both runServer and closeServer. closeServer
 // assumes runServer has run and set `server` to a server object
 let server;
-
 function runServer(databaseUrl = DATABASE_URL) {
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
